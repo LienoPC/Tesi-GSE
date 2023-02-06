@@ -26,16 +26,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.button.setOnClickListener(onClick);
         binding.startButton.setOnClickListener(onClick2);
-        Scheduler.start();
+
     }
 
     private View.OnClickListener onClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            System.out.println(binding.button.getId());
-            System.out.println(binding.button.getText());
-            System.out.println("Ti sto insegnando");
-            Scheduler.start();
+            System.out.println("Bottone schiacciato");
         }
     };
 
@@ -44,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
 
             try {
+                Scheduler.start();
+                TimeUnit.SECONDS.sleep(5);
                 ClickButton click1 = new ClickButton(binding);
                 WriteOnScreen write1 = new WriteOnScreen("Primo", binding);
                 WriteOnScreen write2 = new WriteOnScreen("Secondo", binding);
@@ -51,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 ClickButton click2 = new ClickButton(binding);
                 BatchOperationsManager.getInstance().addOperation(click1);
                 BatchOperationsManager.getInstance().addOperation(write1);
+                System.out.println("Attendo 100 secondi");
                 TimeUnit.SECONDS.sleep(100);
                 BatchOperationsManager.getInstance().addOperation(write2);
                 BatchOperationsManager.getInstance().addOperation(write3);

@@ -17,6 +17,6 @@ public class WriteOnScreen implements BatchOperation {
 
     @Override
     public void execute() {
-        binding.textView.setText(text);
+        System.out.println(text);
     }
 }

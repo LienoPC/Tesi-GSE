@@ -35,11 +35,11 @@ public class BatchOperationsManager extends TimerTask {
     public void run() {
 
         try {
+            System.out.println("Eseguo:");
             for(BatchOperation o : operationSet){
                 o.execute();
-                TimeUnit.SECONDS.sleep(5);
-
             }
+            System.out.println("Uscito dal for\n\n\n");
             operationSet.clear();
         }catch (Exception e){
             e.printStackTrace();
