@@ -1,13 +1,14 @@
 package BatchOperation;
 
 import java.util.ArrayList;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 /* INVOKER della Command, ha un insieme di richieste che vengono inserite in un ArrayList
 
  */
 @ToBatch
-public class BatchOperationsManager {
+public class BatchOperationsManager extends TimerTask {
 
     private static BatchOperationsManager instance;
     private ArrayList<BatchOperation> operationSet;
@@ -30,18 +31,18 @@ public class BatchOperationsManager {
         operationSet.add(operation);
     }
 
-    @ToBatchMethod
-    public boolean execute() throws java.lang.InterruptedException{
-        System.out.println("Invocazione");
-        for(BatchOperation o : operationSet){
-            System.out.println("Prima dell'esecuzione");
-            o.execute();
-            System.out.println("Dopo l'esecuzione");
-            TimeUnit.SECONDS.sleep(5);
+    @Override
+    public void run() {
 
+        try {
+            for(BatchOperation o : operationSet){
+                o.execute();
+                TimeUnit.SECONDS.sleep(5);
+
+            }
+            operationSet.clear();
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        operationSet.clear();
-        return true;
-
     }
 }
