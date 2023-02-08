@@ -55,13 +55,14 @@ public class MainActivity extends AppCompatActivity {
                     GPSOperation operation2 = new GPSOperation(getSelf());
                     manager.addOperation(operation1);
                     manager.addOperation(operation2);
-
+                    TimeUnit.SECONDS.sleep(50);
                     GPSOperation operation3 = new GPSOperation(getSelf());
                     HTTPOperation operation4 = new HTTPOperation();
-                    TimeUnit.SECONDS.sleep(50);
+                    GPSOperation operation5 = new GPSOperation(getSelf());
                     manager.addOperation(operation3);
                     manager.addOperation(operation4);
-
+                    manager.addOperation(operation5);
+                    manager.addOperation(operation1);
 
 
 

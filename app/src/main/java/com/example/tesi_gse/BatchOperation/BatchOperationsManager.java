@@ -29,6 +29,10 @@ public class BatchOperationsManager extends TimerTask {
 
         System.out.println("Inserisco l'operazione: " + operation);
         operationSet.add(operation);
+
+        if (operationSet.size() >= 4){
+            run();
+        }
     }
 
     @Override
