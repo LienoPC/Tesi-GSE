@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
 
     View requestBtn;
+    View requestHttp;
     private BatchOperationsManager manager;
     private static AppCompatActivity self;
 
@@ -45,25 +46,17 @@ public class MainActivity extends AppCompatActivity {
         manager = BatchOperationsManager.getInstance();
         setContentView(R.layout.activity_main);
         requestBtn =  findViewById(R.id.requestBtn);
+        requestHttp = findViewById(R.id.requestHttp);
         Scheduler.start();
         requestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 try {
-                    GPSOperation operation1 = new GPSOperation(getSelf());
-                    GPSOperation operation2 = new GPSOperation(getSelf());
-                    manager.addOperation(operation1);
-                    manager.addOperation(operation2);
-                    TimeUnit.SECONDS.sleep(50);
-                    GPSOperation operation3 = new GPSOperation(getSelf());
-                    HTTPOperation operation4 = new HTTPOperation();
-                    GPSOperation operation5 = new GPSOperation(getSelf());
-                    manager.addOperation(operation3);
-                    manager.addOperation(operation4);
-                    manager.addOperation(operation5);
-                    manager.addOperation(operation1);
-
+                    GPSOperation operation = new GPSOperation(self);
+                    for(int i = 0; i < 50; i++){
+                        manager.addOperation(operation);
+                    }
 
 
                 }catch (Exception e){
@@ -73,6 +66,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        requestHttp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HTTPOperation operation = new HTTPOperation();
+                for(int i = 0; i < 50; i++){
+                    manager.addOperation(operation);
+                }
+            }
+        });
+
 
     }
 }

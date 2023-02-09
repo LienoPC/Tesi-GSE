@@ -33,7 +33,8 @@ public class HTTPOperation implements BatchOperation {
                     if(response.isSuccessful()){
                         ResponseBody responseBody = response.body();
                         String body = responseBody.string();
-                        System.out.println(body);
+                        //System.out.println(body);
+                        System.out.println("Comunicazione avvenuta");
                     }else{
                         System.out.println("Unespected code" + response);
                     }

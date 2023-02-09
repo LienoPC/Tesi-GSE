@@ -49,7 +49,6 @@ public class GPSOperation implements BatchOperation {
                 @Override
                 public void onSuccess(Location location) {
                     Log.d(TAG, "onSuccessGps: Thread Id "+ Thread.currentThread().getId());
-                    System.out.println("Faccio la locazione");
                     writeValues(location);
                 }
             };
@@ -63,9 +62,7 @@ public class GPSOperation implements BatchOperation {
     }
 
     private void writeValues(Location location){
-        System.out.println(location);
         System.out.println("Prelevata posizione");
-
 
     }
 }
