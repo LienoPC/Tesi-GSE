@@ -1,20 +1,30 @@
 package com.example.tesi_gse.BatchOperation;
 
+import android.app.IntentService;
+import android.content.Intent;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.JobIntentService;
+
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Scheduler {
+public class Scheduler extends JobIntentService {
 
     private static final long PERIOD = 0;
     private static final long DELAY = 40;
 
     private static ScheduledExecutorService schedule;
 
-    //Metodo che si occupa della politica delle operazioni
-    public static void start(){
+    public Scheduler(){
+        super();
+    }
 
+    //Metodo che si occupa della politica delle operazioni
+    @Override
+    protected void onHandleWork(@Nullable Intent intent) {
         try {
             TimerTask batchOperations = BatchOperationsManager.getInstance();
             schedule = Executors.newSingleThreadScheduledExecutor();
@@ -22,8 +32,6 @@ public class Scheduler {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
 
     public static void stop(){

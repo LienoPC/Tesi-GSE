@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -19,12 +20,16 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final static int SCH_ID = 1000;
     View requestBtn;
     View requestHttp;
     private BatchOperationsManager manager;
-    private static AppCompatActivity self;
 
-    public static AppCompatActivity getSelf() {
+    private Intent schedulerService;
+
+    private AppCompatActivity self;
+
+    public AppCompatActivity getSelf() {
         return self;
     }
 
@@ -47,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         requestBtn =  findViewById(R.id.requestBtn);
         requestHttp = findViewById(R.id.requestHttp);
-        Scheduler.start();
+        schedulerService = new Intent();
+        Scheduler.enqueueWork(self, Scheduler.class, SCH_ID, schedulerService);
         requestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
