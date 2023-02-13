@@ -1,5 +1,8 @@
 package com.example.tesi_gse.BatchOperation;
 
+import com.example.tesi_gse.Operation.GPSOperation;
+import com.example.tesi_gse.Operation.HTTPOperation;
+
 import java.util.ArrayList;
 import java.util.TimerTask;
 
@@ -10,7 +13,8 @@ import java.util.TimerTask;
 public class BatchOperationsManager extends TimerTask {
 
     private static BatchOperationsManager instance;
-    private ArrayList<BatchOperation> operationSet;
+    private ArrayList<BatchOperation> gpsOperationSet;
+    private ArrayList<BatchOperation> httpOperationSet;
 
     public static BatchOperationsManager getInstance() {
         if(instance == null){
@@ -22,19 +26,20 @@ public class BatchOperationsManager extends TimerTask {
 
 
     private BatchOperationsManager(){
-        operationSet = new ArrayList<>();
+        gpsOperationSet = new ArrayList<>();
+        httpOperationSet = new ArrayList<>();
     }
 
     public void addOperation(BatchOperation operation){
 
         System.out.println("Inserisco l'operazione: " + operation);
-        operationSet.add(operation);
-
-        /*
-        if (operationSet.size() >= 4){
-            run();
+        if(operation instanceof GPSOperation){
+            gpsOperationSet.add(operation);
         }
-        */
+        if(operation instanceof HTTPOperation){
+            httpOperationSet.add(operation);
+        }
+
 
     }
 
@@ -42,18 +47,31 @@ public class BatchOperationsManager extends TimerTask {
     public void run() {
 
         try {
-            System.out.println(operationSet);
-            for(BatchOperation o : operationSet){
-                System.out.println(o);
-                o.execute();
+            if(gpsOperationSet.size() > httpOperationSet.size()){
+                executeGPS();
+                executeHTTP();
+            }else{
+                executeHTTP();
+                executeGPS();
             }
-            operationSet.clear();
-            System.out.println(operationSet);
-            System.out.println("Uscito dal for\n\n\n");
-
+            System.out.println("Eseguito la schedule");
 
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void executeGPS(){
+        for(BatchOperation o : gpsOperationSet){
+            o.execute();
+        }
+        gpsOperationSet.clear();
+    }
+
+    private void executeHTTP(){
+        for(BatchOperation o : httpOperationSet){
+            o.execute();
+        }
+        httpOperationSet.clear();
     }
 }

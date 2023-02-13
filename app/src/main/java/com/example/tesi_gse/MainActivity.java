@@ -2,12 +2,15 @@ package com.example.tesi_gse;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.os.HandlerCompat;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,6 +19,9 @@ import com.example.tesi_gse.BatchOperation.Scheduler;
 import com.example.tesi_gse.Operation.GPSOperation;
 import com.example.tesi_gse.Operation.HTTPOperation;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
     private final static int SCH_ID = 1000;
     View requestBtn;
     View requestHttp;
+    private Scheduler scheduler;
     private BatchOperationsManager manager;
 
-    private Intent schedulerService;
+    private ExecutorService executorService = Executors.newFixedThreadPool(4);
+    private Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
 
     private AppCompatActivity self;
 
@@ -49,27 +57,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         self = this;
         manager = BatchOperationsManager.getInstance();
+
         setContentView(R.layout.activity_main);
         requestBtn =  findViewById(R.id.requestBtn);
         requestHttp = findViewById(R.id.requestHttp);
-        schedulerService = new Intent();
-        Scheduler.enqueueWork(self, Scheduler.class, SCH_ID, schedulerService);
+
+        scheduler = new Scheduler(new Executor() {
+            @Override
+            public void execute(Runnable runnable) {
+                runnable.run();
+            }
+        });
+        scheduler.start();
+
         requestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 try {
                     GPSOperation operation = new GPSOperation(self);
                     for(int i = 0; i < 50; i++){
                         manager.addOperation(operation);
                     }
-
-
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
-
             }
         });
         requestHttp.setOnClickListener(new View.OnClickListener() {
