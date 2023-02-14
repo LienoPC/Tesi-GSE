@@ -29,11 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private final static int SCH_ID = 1000;
     View requestBtn;
     View requestHttp;
+    View noBatchHttp;
+    View noBatchGps;
     private Scheduler scheduler;
+    private TestClass testClass;
     private BatchOperationsManager manager;
 
     private ExecutorService executorService = Executors.newFixedThreadPool(4);
-    private Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
 
     private AppCompatActivity self;
 
@@ -61,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         requestBtn =  findViewById(R.id.requestBtn);
         requestHttp = findViewById(R.id.requestHttp);
+        noBatchGps = findViewById(R.id.requestGpsNobatch);
+        noBatchHttp = findViewById(R.id.requestHttpNobatch);
 
         scheduler = new Scheduler(new Executor() {
             @Override
@@ -70,26 +74,98 @@ public class MainActivity extends AppCompatActivity {
         });
         scheduler.start();
 
+        testClass = new TestClass(new Executor() {
+            @Override
+            public void execute(Runnable runnable) {
+                runnable.run();
+            }
+        });
+
         requestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                testClass.gpsBatch(self);
+                /*
                 try {
-                    GPSOperation operation = new GPSOperation(self);
-                    for(int i = 0; i < 50; i++){
-                        manager.addOperation(operation);
+                    for(int j = 0; j < 50; j++){
+                        GPSOperation operation = new GPSOperation(self);
+                        for(int i = 0; i < 500; i++){
+                            manager.addOperation(operation);
+                        }
+                        TimeUnit.SECONDS.sleep(120);
                     }
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+                */
+
             }
         });
         requestHttp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HTTPOperation operation = new HTTPOperation();
-                for(int i = 0; i < 50; i++){
-                    manager.addOperation(operation);
+
+                testClass.httpBatch();
+                /*
+                try{
+                    for(int j = 0; j < 50; j++){
+                        HTTPOperation operation = new HTTPOperation();
+                        for(int i = 0; i < 500; i++){
+                            manager.addOperation(operation);
+                        }
+                        TimeUnit.SECONDS.sleep(120);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
+                */
+
+            }
+        });
+
+        noBatchGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                testClass.gpsNoBatch(self);
+                /*
+                try {
+                    for(int j = 0; j < 50; j++){
+                        GPSOperation operation = new GPSOperation(self);
+                        for(int i = 0; i < 500; i++){
+                            operation.execute();
+                        }
+                        TimeUnit.SECONDS.sleep(120);
+                    }
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                */
+
+            }
+        });
+
+        noBatchHttp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                testClass.httpNoBatch();
+                /*
+                try{
+                    for(int j = 0; j < 50; j++){
+                        HTTPOperation operation = new HTTPOperation();
+                        for(int i = 0; i < 500; i++){
+                            operation.execute();
+                            TimeUnit.MILLISECONDS.sleep(10);
+                        }
+                        TimeUnit.SECONDS.sleep(120);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                 */
             }
         });
 
