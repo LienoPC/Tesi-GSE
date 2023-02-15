@@ -9,34 +9,28 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class Scheduler {
+public class Scheduler implements Runnable{
 
     private static final long PERIOD = 0;
     private static final long DELAY = 40;
 
-    private final Executor executor;
     private ScheduledExecutorService schedule;
 
-    public Scheduler(Executor executor){
+    public Scheduler(){
         super();
-        this.executor = executor;
     }
 
     //Metodo che si occupa della politica delle operazioni
-    public void start(){
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    TimerTask batchOperations = BatchOperationsManager.getInstance();
-                    schedule = Executors.newSingleThreadScheduledExecutor();
-                    schedule.scheduleAtFixedRate(batchOperations, PERIOD, DELAY, TimeUnit.SECONDS);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+    public void run(){
+            try {
+                TimerTask batchOperations = BatchOperationsManager.getInstance();
+                schedule = Executors.newSingleThreadScheduledExecutor();
+                schedule.scheduleAtFixedRate(batchOperations, PERIOD, DELAY, TimeUnit.SECONDS);
+            }catch (Exception e){
+                e.printStackTrace();
             }
-        });
     }
+
 
 
 

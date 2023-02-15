@@ -32,10 +32,8 @@ public class MainActivity extends AppCompatActivity {
     View noBatchHttp;
     View noBatchGps;
     private Scheduler scheduler;
-    private TestClass testClass;
-    private BatchOperationsManager manager;
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(4);
+    private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     private AppCompatActivity self;
 
@@ -58,14 +56,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         self = this;
-        manager = BatchOperationsManager.getInstance();
-
         setContentView(R.layout.activity_main);
         requestBtn =  findViewById(R.id.requestBtn);
         requestHttp = findViewById(R.id.requestHttp);
         noBatchGps = findViewById(R.id.requestGpsNobatch);
         noBatchHttp = findViewById(R.id.requestHttpNobatch);
-
+/*
         scheduler = new Scheduler(new Executor() {
             @Override
             public void execute(Runnable runnable) {
@@ -73,18 +69,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         scheduler.start();
+*/
+        scheduler = new Scheduler();
+        System.out.println("Prima dell'execute");
+        executorService.execute(scheduler);
+        System.out.println("Dopo l'execute");
 
-        testClass = new TestClass(new Executor() {
-            @Override
-            public void execute(Runnable runnable) {
-                runnable.run();
-            }
-        });
 
         requestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                testClass.gpsBatch(self);
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        TestClass.gpsBatch(self);
+                    }
+                });
+
                 /*
                 try {
                     for(int j = 0; j < 50; j++){
@@ -106,7 +107,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                testClass.httpBatch();
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        TestClass.httpBatch();
+                    }
+                });
+
                 /*
                 try{
                     for(int j = 0; j < 50; j++){
@@ -128,7 +135,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                testClass.gpsNoBatch(self);
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        TestClass.gpsNoBatch(self);
+                    }
+                });
+
                 /*
                 try {
                     for(int j = 0; j < 50; j++){
@@ -150,7 +163,13 @@ public class MainActivity extends AppCompatActivity {
         noBatchHttp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                testClass.httpNoBatch();
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        TestClass.httpNoBatch();
+                    }
+                });
+
                 /*
                 try{
                     for(int j = 0; j < 50; j++){

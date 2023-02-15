@@ -12,90 +12,70 @@ import java.util.concurrent.TimeUnit;
 
 public class TestClass {
 
-    private final Executor executor;
-    private ScheduledExecutorService schedule;
-
-    public TestClass(Executor executor){
-        this.executor = executor;
-    }
-
-    public void httpBatch(){
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    for(int j = 0; j < 50; j++){
-                        HTTPOperation operation = new HTTPOperation();
-                        for(int i = 0; i < 500; i++){
-                            BatchOperationsManager.getInstance().addOperation(operation);
-                        }
-                        TimeUnit.SECONDS.sleep(120);
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void gpsBatch(AppCompatActivity self){
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    for(int j = 0; j < 50; j++){
-                        GPSOperation operation = new GPSOperation(self);
-                        for(int i = 0; i < 500; i++){
-                            BatchOperationsManager.getInstance().addOperation(operation);
-                        }
-                        TimeUnit.SECONDS.sleep(120);
-                    }
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void httpNoBatch(){
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    for(int j = 0; j < 50; j++){
-                        HTTPOperation operation = new HTTPOperation();
-                        for(int i = 0; i < 500; i++){
-                            operation.execute();
-                            TimeUnit.MILLISECONDS.sleep(10);
-                        }
-                        TimeUnit.SECONDS.sleep(120);
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
+    public TestClass(){
 
     }
 
-    public void gpsNoBatch(AppCompatActivity self){
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    for(int j = 0; j < 50; j++){
-                        GPSOperation operation = new GPSOperation(self);
-                        for(int i = 0; i < 500; i++){
-                            operation.execute();
-                        }
-                        TimeUnit.SECONDS.sleep(120);
-                    }
+    public static void httpBatch(){
 
-                }catch (Exception e){
-                    e.printStackTrace();
+        try{
+            for(int j = 0; j < 50; j++){
+                HTTPOperation operation = new HTTPOperation();
+                for(int i = 0; i < 500; i++){
+                    BatchOperationsManager.getInstance().addOperation(operation);
                 }
+                TimeUnit.SECONDS.sleep(120);
             }
-        });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void gpsBatch(AppCompatActivity self){
+        try {
+            for(int j = 0; j < 50; j++){
+                GPSOperation operation = new GPSOperation(self);
+                for(int i = 0; i < 500; i++){
+                    BatchOperationsManager.getInstance().addOperation(operation);
+                }
+                TimeUnit.SECONDS.sleep(120);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void httpNoBatch(){
+        try{
+            for(int j = 0; j < 50; j++){
+                HTTPOperation operation = new HTTPOperation();
+                for(int i = 0; i < 500; i++){
+                    operation.execute();
+                    TimeUnit.MILLISECONDS.sleep(10);
+                }
+                TimeUnit.SECONDS.sleep(120);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void gpsNoBatch(AppCompatActivity self){
+        try {
+            for(int j = 0; j < 50; j++){
+                GPSOperation operation = new GPSOperation(self);
+                for(int i = 0; i < 500; i++){
+                    operation.execute();
+                }
+                TimeUnit.SECONDS.sleep(120);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }
