@@ -23,8 +23,9 @@ public class TestClass {
                 HTTPOperation operation = new HTTPOperation();
                 for(int i = 0; i < 500; i++){
                     BatchOperationsManager.getInstance().addOperation(operation);
+                    TimeUnit.SECONDS.sleep(15);
                 }
-                TimeUnit.SECONDS.sleep(120);
+
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -37,8 +38,8 @@ public class TestClass {
                 GPSOperation operation = new GPSOperation(self);
                 for(int i = 0; i < 500; i++){
                     BatchOperationsManager.getInstance().addOperation(operation);
+                    TimeUnit.SECONDS.sleep(15);
                 }
-                TimeUnit.SECONDS.sleep(120);
             }
 
         }catch (Exception e){
@@ -53,9 +54,8 @@ public class TestClass {
                 HTTPOperation operation = new HTTPOperation();
                 for(int i = 0; i < 500; i++){
                     operation.execute();
-                    TimeUnit.MILLISECONDS.sleep(10);
+                    TimeUnit.SECONDS.sleep(15);
                 }
-                TimeUnit.SECONDS.sleep(120);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -69,8 +69,8 @@ public class TestClass {
                 GPSOperation operation = new GPSOperation(self);
                 for(int i = 0; i < 500; i++){
                     operation.execute();
+                    TimeUnit.SECONDS.sleep(15);
                 }
-                TimeUnit.SECONDS.sleep(120);
             }
 
         }catch (Exception e){

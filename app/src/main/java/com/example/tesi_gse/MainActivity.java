@@ -70,15 +70,14 @@ public class MainActivity extends AppCompatActivity {
         });
         scheduler.start();
 */
-        scheduler = new Scheduler();
-        System.out.println("Prima dell'execute");
-        executorService.execute(scheduler);
-        System.out.println("Dopo l'execute");
 
 
         requestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                scheduler = new Scheduler();
+                executorService.execute(scheduler);
+
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -107,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                scheduler = new Scheduler();
+                executorService.execute(scheduler);
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -134,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
         noBatchGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
         noBatchHttp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
