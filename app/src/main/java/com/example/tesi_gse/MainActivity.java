@@ -1,5 +1,7 @@
 package com.example.tesi_gse;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.os.HandlerCompat;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     View noBatchHttp;
     View noBatchGps;
     private Scheduler scheduler;
-
+    private ActivityResultLauncher<String> requestPermissionLauncher;
     private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     private AppCompatActivity self;
@@ -42,18 +44,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
-            case GPSOperation.PERMISSIONS_FINE_LOCATION:
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                }else {
-                    Toast.makeText(this, "Permission needed", Toast.LENGTH_SHORT).show();
-                }
-        }
-    }
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (isGranted) {
+            } else {
+                Toast.makeText(this, "GPS Needed", Toast.LENGTH_SHORT).show();
+                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+            }
+        });
         super.onCreate(savedInstanceState);
         self = this;
         setContentView(R.layout.activity_main);
@@ -84,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
                         TestClass.gpsBatch(self);
                     }
                 });
+                Toast.makeText(self,"Finito GpsBatch", Toast.LENGTH_SHORT).show();
+
 
                 /*
                 try {
@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                         TestClass.httpBatch();
                     }
                 });
+                Toast.makeText(null,"Finito HttpBatch", Toast.LENGTH_SHORT).show();
 
                 /*
                 try{
@@ -139,8 +140,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         TestClass.gpsNoBatch(self);
+
                     }
                 });
+                Toast.makeText(null,"Finito GpsNoBatch", Toast.LENGTH_SHORT).show();
 
                 /*
                 try {
@@ -170,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                         TestClass.httpNoBatch();
                     }
                 });
+                Toast.makeText(null,"Finito HttpNoBatch", Toast.LENGTH_SHORT).show();
 
                 /*
                 try{

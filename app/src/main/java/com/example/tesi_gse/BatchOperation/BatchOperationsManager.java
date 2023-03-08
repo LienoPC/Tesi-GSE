@@ -9,7 +9,6 @@ import java.util.TimerTask;
 /* INVOKER della Command, ha un insieme di richieste che vengono inserite in un ArrayList
 
  */
-@ToBatch
 public class BatchOperationsManager extends TimerTask {
 
     private static BatchOperationsManager instance;

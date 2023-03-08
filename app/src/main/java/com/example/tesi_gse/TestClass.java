@@ -1,5 +1,7 @@
 package com.example.tesi_gse;
 
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tesi_gse.BatchOperation.BatchOperationsManager;
@@ -25,7 +27,6 @@ public class TestClass {
                     BatchOperationsManager.getInstance().addOperation(operation);
                     TimeUnit.SECONDS.sleep(15);
                 }
-
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -41,7 +42,6 @@ public class TestClass {
                     TimeUnit.SECONDS.sleep(15);
                 }
             }
-
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -56,6 +56,7 @@ public class TestClass {
                     operation.execute();
                     TimeUnit.SECONDS.sleep(15);
                 }
+
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -71,6 +72,7 @@ public class TestClass {
                     operation.execute();
                     TimeUnit.SECONDS.sleep(15);
                 }
+
             }
 
         }catch (Exception e){
