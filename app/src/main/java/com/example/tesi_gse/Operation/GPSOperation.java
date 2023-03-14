@@ -12,6 +12,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
@@ -42,6 +43,7 @@ public class GPSOperation implements BatchOperation {
     public static final int PERMISSIONS_FINE_LOCATION = 99;
 
     Criteria criteria;
+    /*
     final LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(@NonNull Location location) {
@@ -65,14 +67,20 @@ public class GPSOperation implements BatchOperation {
 
     };
 
-    final LocationManager locationManager;
+     */
 
-    final Looper looper = null;
+    //final LocationManager locationManager;
+    private AppCompatActivity context;
 
     //Google's API for location services
-    //private FusedLocationProviderClient fusedLocationProviderClient;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
-    private AppCompatActivity context;
+    public GPSOperation(AppCompatActivity context){
+        this.context = context;
+    }
+/*
+
+
     public GPSOperation(AppCompatActivity context){
 
         criteria = new Criteria();
@@ -87,21 +95,21 @@ public class GPSOperation implements BatchOperation {
         this.context = context;
 
         locationManager = (LocationManager)context.getSystemService(context.LOCATION_SERVICE);
-    }
 
+    }
 
     @Override
     public void execute(){
 
         if(ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            locationManager.requestSingleUpdate(criteria,locationListener,Looper.myLooper());
+            locationManager.requestSingleUpdate(criteria,locationListener, null);
         }else{
 
         }
 
     }
+*/
 
-   /*
     @Override
     public void execute() {
         //Get permission from the user to use GPS
@@ -116,8 +124,7 @@ public class GPSOperation implements BatchOperation {
             };
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
 
-           // fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, token.getToken()).addOnSuccessListener(onSuccessListener);
-            fusedLocationProviderClient.getLastLocation();
+            fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, token.getToken()).addOnSuccessListener(onSuccessListener);
             System.out.println("Dopo il get");
 
         }
@@ -127,9 +134,9 @@ public class GPSOperation implements BatchOperation {
     }
 
     private void writeValues(Location location){
-        System.out.println("Prelevata posizione");
+        System.out.println(location.toString());
 
     }
 
-    */
+
 }

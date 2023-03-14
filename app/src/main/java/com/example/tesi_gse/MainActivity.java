@@ -4,6 +4,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.os.HandlerCompat;
 
 import android.Manifest;
@@ -45,20 +47,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-            if (isGranted) {
-            } else {
-                Toast.makeText(this, "GPS Needed", Toast.LENGTH_SHORT).show();
-                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-            }
-        });
+
         super.onCreate(savedInstanceState);
+        Toast.makeText(this, "Funonzia", Toast.LENGTH_SHORT).show();
         self = this;
         setContentView(R.layout.activity_main);
         requestBtn =  findViewById(R.id.requestBtn);
         requestHttp = findViewById(R.id.requestHttp);
         noBatchGps = findViewById(R.id.requestGpsNobatch);
         noBatchHttp = findViewById(R.id.requestHttpNobatch);
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permissionCheck != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+                Toast.makeText(this, "GPS Needed", Toast.LENGTH_SHORT).show();
+            }else{
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+        }
+/*
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (isGranted) {
+                Toast.makeText(this, "Funonzia", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "GPS Needed", Toast.LENGTH_SHORT).show();
+                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+            }
+        });
+        */
 /*
         scheduler = new Scheduler(new Executor() {
             @Override
@@ -75,14 +90,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 scheduler = new Scheduler();
                 executorService.execute(scheduler);
-
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
                         TestClass.gpsBatch(self);
+                        Toast.makeText(self,"Finito GpsBatch", Toast.LENGTH_SHORT).show();
                     }
                 });
-                Toast.makeText(self,"Finito GpsBatch", Toast.LENGTH_SHORT).show();
 
 
                 /*
@@ -112,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         TestClass.httpBatch();
+                        Toast.makeText(null,"Finito HttpBatch", Toast.LENGTH_SHORT).show();
                     }
                 });
-                Toast.makeText(null,"Finito HttpBatch", Toast.LENGTH_SHORT).show();
 
                 /*
                 try{
@@ -140,10 +154,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         TestClass.gpsNoBatch(self);
-
+                        Toast.makeText(self,"Finito GpsNoBatch", Toast.LENGTH_SHORT).show();
                     }
                 });
-                Toast.makeText(null,"Finito GpsNoBatch", Toast.LENGTH_SHORT).show();
+
 
                 /*
                 try {
@@ -171,9 +185,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         TestClass.httpNoBatch();
+                        Toast.makeText(null,"Finito HttpNoBatch", Toast.LENGTH_SHORT).show();
                     }
                 });
-                Toast.makeText(null,"Finito HttpNoBatch", Toast.LENGTH_SHORT).show();
 
                 /*
                 try{

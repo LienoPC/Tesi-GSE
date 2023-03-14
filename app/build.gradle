@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.tesi_gse"
-        minSdk 15
+        minSdk 23
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -43,5 +43,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
 }

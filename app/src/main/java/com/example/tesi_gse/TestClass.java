@@ -21,7 +21,7 @@ public class TestClass {
     public static void httpBatch(){
 
         try{
-            for(int j = 0; j < 50; j++){
+            for(int j = 0; j < 200; j++){
                 HTTPOperation operation = new HTTPOperation();
                 for(int i = 0; i < 500; i++){
                     BatchOperationsManager.getInstance().addOperation(operation);
@@ -35,7 +35,7 @@ public class TestClass {
 
     public static void gpsBatch(AppCompatActivity self){
         try {
-            for(int j = 0; j < 50; j++){
+            for(int j = 0; j < 200; j++){
                 GPSOperation operation = new GPSOperation(self);
                 for(int i = 0; i < 500; i++){
                     BatchOperationsManager.getInstance().addOperation(operation);
@@ -50,7 +50,7 @@ public class TestClass {
 
     public static void httpNoBatch(){
         try{
-            for(int j = 0; j < 50; j++){
+            for(int j = 0; j < 200; j++){
                 HTTPOperation operation = new HTTPOperation();
                 for(int i = 0; i < 500; i++){
                     operation.execute();
@@ -66,7 +66,7 @@ public class TestClass {
 
     public static void gpsNoBatch(AppCompatActivity self){
         try {
-            for(int j = 0; j < 50; j++){
+            for(int j = 0; j < 200; j++){
                 GPSOperation operation = new GPSOperation(self);
                 for(int i = 0; i < 500; i++){
                     operation.execute();
