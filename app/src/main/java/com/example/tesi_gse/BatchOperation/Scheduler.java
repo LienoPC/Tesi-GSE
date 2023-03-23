@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class Scheduler implements Runnable{
 
     private static final long PERIOD = 0;
-    private static final long DELAY = 110;
+    private static final long DELAY = 120;
 
     private ScheduledExecutorService schedule;
 

@@ -119,7 +119,8 @@ public class GPSOperation implements BatchOperation {
                 @Override
                 public void onSuccess(Location location) {
                     Log.d(TAG, "onSuccessGps: Thread Id "+ Thread.currentThread().getId());
-                    writeValues(location);
+                    System.out.println(location);
+                    //writeValues(location);
                 }
             };
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
@@ -135,7 +136,6 @@ public class GPSOperation implements BatchOperation {
 
     private void writeValues(Location location){
         System.out.println(location.toString());
-
     }
 
 
