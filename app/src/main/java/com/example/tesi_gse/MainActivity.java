@@ -1,32 +1,19 @@
 package com.example.tesi_gse;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.os.HandlerCompat;
+
 
 import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
-
-import com.example.tesi_gse.BatchOperation.BatchOperationsManager;
 import com.example.tesi_gse.BatchOperation.Scheduler;
-import com.example.tesi_gse.Operation.GPSOperation;
-import com.example.tesi_gse.Operation.HTTPOperation;
-
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -42,6 +42,13 @@ public class GPSOperation implements BatchOperation {
 
     public static final int PERMISSIONS_FINE_LOCATION = 99;
 
+    OnSuccessListener onSuccessListener = new OnSuccessListener<Location>() {
+        @Override
+        public void onSuccess(Location location) {
+            System.out.println(location);
+            //writeValues(location);
+        }
+    };
     Criteria criteria;
     /*
     final LocationListener locationListener = new LocationListener() {
@@ -115,14 +122,7 @@ public class GPSOperation implements BatchOperation {
         //Get permission from the user to use GPS
         CancellationTokenSource token = new CancellationTokenSource();
         if(ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            OnSuccessListener onSuccessListener = new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    Log.d(TAG, "onSuccessGps: Thread Id "+ Thread.currentThread().getId());
-                    System.out.println(location);
-                    //writeValues(location);
-                }
-            };
+
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
 
             fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, token.getToken()).addOnSuccessListener(onSuccessListener);
