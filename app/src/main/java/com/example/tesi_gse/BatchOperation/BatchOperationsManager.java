@@ -1,5 +1,7 @@
 package com.example.tesi_gse.BatchOperation;
 
+import android.location.Location;
+
 import com.example.tesi_gse.Operation.GPSOperation;
 import com.example.tesi_gse.Operation.HTTPOperation;
 
@@ -15,6 +17,20 @@ public class BatchOperationsManager extends TimerTask {
     private ArrayList<BatchOperation> gpsOperationSet;
     private ArrayList<BatchOperation> httpOperationSet;
 
+    private final OkHttpClient client = new OkHttpClient();
+    private final OnSuccessListener onSuccessListener = new OnSuccessListener<Location>() {
+        @Override
+        public void onSuccess(Location location) {
+            System.out.println(location);
+            //writeValues(location);
+        }
+    };
+
+    private final FusedLocationProviderClient fusedLocationProviderClient =  LocationServices.getFusedLocationProviderClient(context);
+
+    private final CancellationTokenSource token = new CancellationTokenSource();
+
+
     public static BatchOperationsManager getInstance() {
         if(instance == null){
             instance = new BatchOperationsManager();
@@ -27,6 +43,8 @@ public class BatchOperationsManager extends TimerTask {
     private BatchOperationsManager(){
         gpsOperationSet = new ArrayList<>();
         httpOperationSet = new ArrayList<>();
+
+
     }
 
     public void addOperation(BatchOperation operation){
@@ -72,5 +90,21 @@ public class BatchOperationsManager extends TimerTask {
             o.execute();
         }
         httpOperationSet.clear();
+    }
+
+    public OkHttpClient getClient() {
+        return client;
+    }
+
+    public OnSuccessListener getOnSuccessListener() {
+        return onSuccessListener;
+    }
+
+    public FusedLocationProviderClient getFusedLocationProviderClient() {
+        return fusedLocationProviderClient;
+    }
+
+    public CancellationTokenSource getToken() {
+        return token;
     }
 }

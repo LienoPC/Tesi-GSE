@@ -78,12 +78,15 @@ public class GPSOperation implements BatchOperation {
 
     //final LocationManager locationManager;
     private AppCompatActivity context;
+    private OnSuccessListener onSuccessListener;
 
     //Google's API for location services
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-    public GPSOperation(AppCompatActivity context){
+    public GPSOperation(AppCompatActivity context, OnSuccessListener onSuccessListener, FusedLocationProviderClient fusedLocationProviderClient){
         this.context = context;
+        this.onSuccessListener = onSuccessListener;
+        this.fusedLocationProviderClient = fusedLocationProviderClient;
     }
 /*
 
@@ -120,10 +123,8 @@ public class GPSOperation implements BatchOperation {
     @Override
     public void execute() {
         //Get permission from the user to use GPS
-        CancellationTokenSource token = new CancellationTokenSource();
-        if(ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
 
-            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+        if(ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
 
             fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, token.getToken()).addOnSuccessListener(onSuccessListener);
             System.out.println("Dopo il get");

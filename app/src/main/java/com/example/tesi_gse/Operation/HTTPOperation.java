@@ -16,7 +16,11 @@ import okhttp3.*;
 
 public class HTTPOperation implements BatchOperation {
 
-    private final OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client;
+
+    public HTTPOperation(OkHttpClient client){
+        this.client = client;
+    }
     @Override
     public void execute() {
         Request request = new Request.Builder().url("https://publicobject.com/helloworld.txt").build();

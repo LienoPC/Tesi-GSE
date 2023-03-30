@@ -22,7 +22,7 @@ public class TestClass {
 
         try{
             for(int j = 0; j < 1000; j++){
-                HTTPOperation operation = new HTTPOperation();
+                HTTPOperation operation = new HTTPOperation(BatchOperationsManager.getInstance().client);
                 for(int i = 0; i < 24; i++){
                     BatchOperationsManager.getInstance().addOperation(operation);
                     TimeUnit.SECONDS.sleep(15);
@@ -36,7 +36,7 @@ public class TestClass {
     public static void gpsBatch(AppCompatActivity self){
         try {
             for(int j = 0; j < 1000; j++){
-                GPSOperation operation = new GPSOperation(self);
+                GPSOperation operation = new GPSOperation(self, BatchOperationsManager.getInstance().onSuccessListener);
                 for(int i = 0; i < 24; i++){
                     BatchOperationsManager.getInstance().addOperation(operation);
                     TimeUnit.SECONDS.sleep(15);
