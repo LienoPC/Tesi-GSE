@@ -2,11 +2,20 @@ package com.example.tesi_gse.BatchOperation;
 
 import android.location.Location;
 
-import com.example.tesi_gse.Operation.GPSOperation;
-import com.example.tesi_gse.Operation.HTTPOperation;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.tesi_gse.Operation.GPSNoBatchOperation;
+import com.example.tesi_gse.Operation.HTTPNBatchOperation;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.CancellationTokenSource;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 import java.util.TimerTask;
+
+import okhttp3.OkHttpClient;
 
 /* INVOKER della Command, ha un insieme di richieste che vengono inserite in un ArrayList
 
@@ -26,23 +35,24 @@ public class BatchOperationsManager extends TimerTask {
         }
     };
 
-    private final FusedLocationProviderClient fusedLocationProviderClient =  LocationServices.getFusedLocationProviderClient(context);
+    private final FusedLocationProviderClient fusedLocationProviderClient;
 
     private final CancellationTokenSource token = new CancellationTokenSource();
 
 
-    public static BatchOperationsManager getInstance() {
+    public static BatchOperationsManager getInstance(@Nullable AppCompatActivity context) {
         if(instance == null){
-            instance = new BatchOperationsManager();
+            instance = new BatchOperationsManager(context);
         }
         return instance;
     }
 
 
 
-    private BatchOperationsManager(){
+    private BatchOperationsManager(AppCompatActivity context){
         gpsOperationSet = new ArrayList<>();
         httpOperationSet = new ArrayList<>();
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
 
 
     }
@@ -50,10 +60,10 @@ public class BatchOperationsManager extends TimerTask {
     public void addOperation(BatchOperation operation){
 
         System.out.println("Inserisco l'operazione: " + operation);
-        if(operation instanceof GPSOperation){
+        if(operation instanceof GPSNoBatchOperation){
             gpsOperationSet.add(operation);
         }
-        if(operation instanceof HTTPOperation){
+        if(operation instanceof HTTPNBatchOperation){
             httpOperationSet.add(operation);
         }
 

@@ -23,7 +23,7 @@ public class Scheduler implements Runnable{
     //Metodo che si occupa della politica delle operazioni
     public void run(){
             try {
-                TimerTask batchOperations = BatchOperationsManager.getInstance();
+                TimerTask batchOperations = BatchOperationsManager.getInstance(null);
                 schedule = Executors.newSingleThreadScheduledExecutor();
                 schedule.scheduleAtFixedRate(batchOperations, PERIOD, DELAY, TimeUnit.SECONDS);
             }catch (Exception e){

@@ -1,28 +1,24 @@
 package com.example.tesi_gse;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.os.HandlerCompat;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.tesi_gse.BatchOperation.BatchOperationsManager;
 import com.example.tesi_gse.BatchOperation.Scheduler;
+import com.example.tesi_gse.Operation.GPSNoBatchOperation;
 import com.example.tesi_gse.Operation.GPSOperation;
-import com.example.tesi_gse.Operation.HTTPOperation;
 
-import java.util.concurrent.Executor;
+import java.security.Permission;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,15 +33,19 @@ public class MainActivity extends AppCompatActivity {
 
     private AppCompatActivity self;
 
-    public AppCompatActivity getSelf() {
-        return self;
-    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode){
             case GPSOperation.PERMISSIONS_FINE_LOCATION:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                }else {
+                    Toast.makeText(this, "Permission needed", Toast.LENGTH_SHORT).show();
+                }
+
+            case GPSNoBatchOperation.PERMISSIONS_FINE_LOCATION:
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 }else {
                     Toast.makeText(this, "Permission needed", Toast.LENGTH_SHORT).show();
@@ -57,10 +57,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         self = this;
         setContentView(R.layout.activity_main);
+        ActivityResultLauncher<String> requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (isGranted) {
+
+                    } else {
+                        Toast.makeText(this, "Permission needed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+
         requestBtn =  findViewById(R.id.requestBtn);
         requestHttp = findViewById(R.id.requestHttp);
         noBatchGps = findViewById(R.id.requestGpsNobatch);
         noBatchHttp = findViewById(R.id.requestHttpNobatch);
+        BatchOperationsManager.getInstance(this);
 /*
         scheduler = new Scheduler(new Executor() {
             @Override
@@ -190,5 +202,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public AppCompatActivity getSelf() {
+        return self;
     }
 }
