@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import com.example.tesi_gse.BatchOperation.BatchOperation;
 
 import java.io.IOException;
-import java.security.spec.ECField;
+
 
 import okhttp3.*;
 
@@ -37,7 +37,6 @@ public class HTTPOperation implements BatchOperation {
                     if(response.isSuccessful()){
                         ResponseBody responseBody = response.body();
                         String body = responseBody.string();
-                        //System.out.println(body);
                         System.out.println("Comunicazione avvenuta");
                     }else{
                         System.out.println("Unespected code" + response);

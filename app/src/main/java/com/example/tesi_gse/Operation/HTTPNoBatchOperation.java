@@ -11,7 +11,7 @@ import java.io.IOException;
 import okhttp3.*;
 
 
-public class HTTPNBatchOperation {
+public class HTTPNoBatchOperation {
 
     private final OkHttpClient client = new OkHttpClient();
     public void execute() {

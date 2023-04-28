@@ -11,13 +11,16 @@ import java.util.concurrent.TimeUnit;
 
 public class Scheduler implements Runnable{
 
-    private static final long PERIOD = 0;
-    private static final long DELAY = 120;
+    private final long PERIOD;
+    private final long DELAY;
 
     private ScheduledExecutorService schedule;
 
-    public Scheduler(){
+    public Scheduler(long DELAY, long PERIOD){
         super();
+        this.DELAY = DELAY;
+        this.PERIOD = PERIOD;
+
     }
 
     //Metodo che si occupa della politica delle operazioni
@@ -25,7 +28,7 @@ public class Scheduler implements Runnable{
             try {
                 TimerTask batchOperations = BatchOperationsManager.getInstance(null);
                 schedule = Executors.newSingleThreadScheduledExecutor();
-                schedule.scheduleAtFixedRate(batchOperations, PERIOD, DELAY, TimeUnit.SECONDS);
+                schedule.scheduleAtFixedRate(batchOperations, DELAY, PERIOD, TimeUnit.SECONDS);
             }catch (Exception e){
                 e.printStackTrace();
             }

@@ -16,13 +16,11 @@ import com.example.tesi_gse.BatchOperation.Scheduler;
 import com.example.tesi_gse.Operation.GPSNoBatchOperation;
 import com.example.tesi_gse.Operation.GPSOperation;
 
-import java.security.Permission;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final static int SCH_ID = 1000;
     View requestBtn;
     View requestHttp;
     View noBatchHttp;
@@ -87,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         requestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scheduler = new Scheduler();
+                scheduler = new Scheduler(0, 120);
                 executorService.execute(scheduler);
 
                 executorService.execute(new Runnable() {
@@ -118,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                scheduler = new Scheduler();
+                scheduler = new Scheduler(0, 120);
                 executorService.execute(scheduler);
                 executorService.execute(new Runnable() {
                     @Override
